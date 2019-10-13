@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="EnglishWords.Views.Controls.EditingElements"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EnglishWords.Views.Controls"
+             xmlns:viewModels="clr-namespace:EnglishWords.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type ListView}">
+            <Setter Property="AlternationCount" Value="5"></Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="FontSize" Value="14"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="5"></Setter>
+                        <Setter Property="Padding" Value="0"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                <Setter Property="Background" Value="#E9967A"></Setter>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                <Setter Property="Background" Value="#EE82EE"></Setter>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="2">
+                                <Setter Property="Background" Value="#EEE8AA"></Setter>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="3">
+                                <Setter Property="Background" Value="#F08080"></Setter>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="4">
+                                <Setter Property="Background" Value="#F0E68C"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="White"></Setter>
+                            </Trigger>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="16" Duration="0:0:0.1"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="14" Duration="0:0:0.1"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5,0,5,0"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Expander}">
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="MinWidth" Value="100"></Setter>
+            <Setter Property="MaxWidth" Value="100"></Setter>
+            <Setter Property="MinHeight" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            
+        </Style>
+        <Style TargetType="{x:Type Separator}">
+            <Setter Property="Grid.ColumnSpan" Value="2"></Setter>
+            <Setter Property="MinHeight" Value="10"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="MinWidth" Value="100"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Ellipse}">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <TabControl>
+        <TabItem x:Name="WordTab" Header="Word">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="1" Content="Check Words!" Command="{Binding Source={x:Static viewModels:MainWindowViewModel.RemodeScreen}}"></Button>
+                </Grid>
+                
+                <ListView x:Name="WordListView" Grid.Column="1" ItemsSource="{Binding Source={x:Static viewModels:MainWindowViewModel.WordObjects}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="Word" Width="150" DisplayMemberBinding="{Binding Path=Word}"></GridViewColumn>
+                                <GridViewColumn Header="Translate" Width="150" DisplayMemberBinding="{Binding Path=WordTranslate}"></GridViewColumn>
+                                <GridViewColumn Header="Transcription" Width="150" DisplayMemberBinding="{Binding Path=WordTranscription, TargetNullValue=[Null]}"></GridViewColumn>
+                                <GridViewColumn Header="Member" Width="150" DisplayMemberBinding="{Binding Path=MemberObject.Member}"></GridViewColumn>
+                                <GridViewColumn Header="Section" Width="150" DisplayMemberBinding="{Binding Path=SectionObject.Section}"></GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Expander Grid.Column="2" Header="Add word">
+                    <Grid Margin="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Word"></TextBlock>
+                        <TextBox x:Name="WordTextBox" Grid.Column="1" Text="{Binding Path=NewWord.Word, Mode=TwoWay}"></TextBox>
+                        
+                        <Separator Grid.Row="1"></Separator>
+                        
+                        <TextBlock Grid.Row="2" Text="Translate"></TextBlock>
+                        <TextBox x:Name="WordTranslateTextBox" Grid.Row="2" Grid.Column="1" Text="{Binding Path=NewWord.WordTranslate, Mode=TwoWay}"></TextBox>
+
+                        <Separator Grid.Row="3"></Separator>
+                        
+                        <TextBlock Grid.Row="4" Text="Transcription"></TextBlock>
+                        <TextBox x:Name="WordTranscriptionTextBox" Grid.Row="4" Grid.Column="1" Text="{Binding Path=NewWord.WordTranscription, Mode=TwoWay}"></TextBox>
+
+                        <Separator Grid.Row="5"></Separator>
+
+                        <TextBlock Grid.Row="6" Text="Member"></TextBlock>
+                        <ComboBox x:Name="WordMemberComboBox" Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Source={x:Static viewModels:MainWindowViewModel.MemberObjects}}"  
+                                          DisplayMemberPath="{Binding Path=Member}" SelectedItem="{Binding Path=NewWord.MemberObject, Mode=TwoWay}"></ComboBox>
+
+                        <Separator Grid.Row="7"></Separator>
+                        
+                        <TextBlock Grid.Row="8" Text="Section"></TextBlock>
+                        <ComboBox  x:Name="WordSectionComboBox" Grid.Row="8" Grid.Column="1" ItemsSource="{Binding Source={x:Static viewModels:MainWindowViewModel.SectionObjects}}"
+                                           DisplayMemberPath="{Binding Path=Section}" SelectedItem="{Binding Path=NewWord.SectionObject, Mode=TwoWay}"></ComboBox>
+
+                        <Separator Grid.Row="9"></Separator>
+
+                        <Button Grid.Row="10" Grid.ColumnSpan="2" Content="Add word" Command="{Binding Path=AddWordCommand}"></Button>
+
+                    </Grid>
+                </Expander>
+            </Grid>
+        </TabItem>
+        
+        
+        
+        <TabItem x:Name="MemberTab" Header="Member">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                
+                <ListView x:Name="MemberListView" Grid.Column="1" ItemsSource="{Binding Source={x:Static viewModels:MainWindowViewModel.MemberObjects}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="Member" Width="150" DisplayMemberBinding="{Binding Path=Member}"></GridViewColumn>
+                                <GridViewColumn Header="Translate" Width="150" DisplayMemberBinding="{Binding Path=MemberTranslate}"></GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </TabItem>
+
+
+
+        <TabItem x:Name="SectionTab" Header="Section">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ListView x:Name="SectionListView" Grid.Column="1" ItemsSource="{Binding Source={x:Static viewModels:MainWindowViewModel.SectionObjects}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="Section" Width="150" DisplayMemberBinding="{Binding Path=Section}"></GridViewColumn>
+                                <GridViewColumn Header="Translete" Width="150" DisplayMemberBinding="{Binding Path=SectionTranslate}"></GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Expander Grid.Column="2" Header="Add section">
+                    <Grid Margin="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Write section"></TextBlock>
+                        <TextBox x:Name="SectionTextBox" Grid.Column="1" Text="{Binding Path=NewSection.Section, Mode=TwoWay}"></TextBox>
+
+                        <Separator Grid.Row="1"></Separator>
+
+                        <TextBlock Grid.Row="2" Text="Write translate"></TextBlock>
+                        <TextBox x:Name="SectionTranslateTextBox" Grid.Row="2"  Grid.Column="1" Text="{Binding Path=NewSection.SectionTranslate, Mode=TwoWay}"></TextBox>
+
+                        <Separator Grid.Row="3"></Separator>
+
+                        <Button Grid.Row="4" Grid.ColumnSpan="2" Content="Add section" Command="{Binding Path=AddSectionCommand}"></Button>
+
+                    </Grid>
+                </Expander>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>
